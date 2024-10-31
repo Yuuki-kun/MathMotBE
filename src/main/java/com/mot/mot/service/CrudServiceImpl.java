@@ -6,8 +6,6 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
 
     protected JpaRepository<T, Long> repository;
 
-    public CrudServiceImpl() {
-    }
     public CrudServiceImpl(
             JpaRepository<T, Long> repository
     ) {

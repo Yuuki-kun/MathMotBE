@@ -10,14 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClassService extends CrudServiceImpl<Class>{
 
-    private final ClassRepository repository;
-
     @Autowired
     public ClassService(ClassRepository repository) {
         super(repository);
-        this.repository = repository;
     }
-
-
-
 }
