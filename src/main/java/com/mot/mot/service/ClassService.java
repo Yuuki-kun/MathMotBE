@@ -15,11 +15,9 @@ public class ClassService extends CrudServiceImpl<Class> {
         super(repository);
     }
 
-
     @Override
     public Class create(Object object) {
-        if (object instanceof CreateClassRequest) {
-            CreateClassRequest createClassRequest = (CreateClassRequest) object;
+        if (object instanceof CreateClassRequest createClassRequest) {
             Class toSaveClass = Class.builder()
                     .className(createClassRequest.getClassDto().getClassName())
                     .classDesc(createClassRequest.getClassDto().getClassDesc())
@@ -28,7 +26,6 @@ public class ClassService extends CrudServiceImpl<Class> {
                     .createdAt(createClassRequest.getClassDto().getCreatedAt())
                     .teacher(Teacher.builder().teacherId(createClassRequest.getTeacherId()).build())
                     .build();
-
             return this.repository.save(toSaveClass);
         } else {
             throw new IllegalArgumentException("Invalid object type for create method");
