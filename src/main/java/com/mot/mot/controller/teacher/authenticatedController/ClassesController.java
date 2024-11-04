@@ -19,14 +19,14 @@ public class ClassesController {
     private final ClassService classService;
 
     @PostMapping
-    public ResponseEntity<?> createClass(@RequestBody CreateClassRequest createClassRequest){
-        var toSaveClass = Class.builder().className(createClassRequest.getClassDto().getClassName())
-                .classDesc(createClassRequest.getClassDto().getClassDesc())
-                .classGrade(createClassRequest.getClassDto().getClassGrade())
-                .classStatus(createClassRequest.getClassDto().getClassStatus())
-                .createdAt(createClassRequest.getClassDto().getCreatedAt())
-                .teacher(Teacher.builder().teacherId(createClassRequest.getTeacherId()).build()).build();
-        var savedClass = classService.create(toSaveClass);
+    public ResponseEntity<?> createClass(@RequestBody CreateClassRequest createClassRequest) {
+
+        if (createClassRequest == null || createClassRequest.getClassDto() == null) {
+            return ResponseEntity.badRequest().body("Invalid input");
+        }
+
+
+        Class savedClass = classService.create(createClassRequest);
         return ResponseEntity.ok(savedClass);
     }
 

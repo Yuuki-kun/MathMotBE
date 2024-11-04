@@ -6,16 +6,14 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
 
     protected JpaRepository<T, Long> repository;
 
-    public CrudServiceImpl(
-            JpaRepository<T, Long> repository
-    ) {
+    public CrudServiceImpl(JpaRepository<T, Long> repository) {
         this.repository = repository;
     }
 
-    @Override
-    public T create(T object) {
-        return this.repository.save(object);
-    }
+//    @Override
+//    public T create(T object) {
+//        return this.repository.save(object);
+//    }
 
     @Override
     public T update(T object) {
@@ -37,4 +35,5 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
     }
 
 
+//    public abstract T create(T object);
 }
