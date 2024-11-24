@@ -1,11 +1,14 @@
 package com.mot.mot.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public abstract class CrudServiceImpl<T> implements ICrudService<T> {
 
     protected JpaRepository<T, Long> repository;
-
+    public CrudServiceImpl() {
+    }
     public CrudServiceImpl(JpaRepository<T, Long> repository) {
         this.repository = repository;
     }
@@ -16,8 +19,8 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
 //    }
 
     @Override
-    public T update(T object) {
-        return null;
+    public void update(T object) {
+        repository.save(object);
     }
 
     @Override
@@ -26,7 +29,7 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
 
     @Override
     public T getById(Long id) {
-        return null;
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -34,6 +37,10 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
         return null;
     }
 
+    @Override
+    public Page<T> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
 
 //    public abstract T create(T object);
 }

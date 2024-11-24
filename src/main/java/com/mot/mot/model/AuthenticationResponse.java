@@ -25,4 +25,7 @@ public class AuthenticationResponse {
    @JsonProperty("userId")
    private Long userId;
 
+   @JsonProperty("memberId")
+   //Id of the member: student or teacher id
+    private Long memberId;
 }

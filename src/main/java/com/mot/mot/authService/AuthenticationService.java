@@ -34,6 +34,57 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
+
+    public void registerForTest(RegisterRequest registerRequest) {
+
+        System.out.println("register="+registerRequest);
+
+        //check if user already exists
+        if(userRepository.existsByEmail(registerRequest.getEmail())){
+            throw new ResourceExistsException("Tài khoản đã tồn tại");
+        }
+
+        var user = User.builder()
+                .email(registerRequest.getEmail())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .locked(false)
+                .enabled(true)
+                .fullName(registerRequest.getFullName())
+                .createdAt(new Date())
+                .build();
+
+        if(registerRequest.getRole() != null){
+            if(registerRequest.getRole().equals("Student")) {
+                var student = Student.builder().build();
+                user.setRoles(Set.of(Role.USER));
+                user.setStudent(student);
+            } else if (registerRequest.getRole().equals("Teacher")) {
+                var teacher = Teacher.builder().build();
+                user.setRoles(Set.of(Role.ADMIN));
+                user.setTeacher(teacher);
+            } else {
+                throw new CustomBadRequestException("Role không hợp lệ");
+            }
+        }else {
+            throw new CustomBadRequestException("Role không được để trống");
+        }
+
+        var savedUser = userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+
+        var token = Token.builder()
+                .user(savedUser)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+
+
+    }
+
+
     public AuthenticationResponse register(RegisterRequest registerRequest, HttpServletResponse response) {
 
         System.out.println("register="+registerRequest);
@@ -132,6 +183,7 @@ public class AuthenticationService {
             return AuthenticationResponse.builder()
                     .accessToken(jwtToken)
                     .userId(user.getId())
+                    .memberId(user.getStudent() != null ? user.getStudent().getStudentId() : user.getTeacher().getTeacherId())
                     .email(user.getEmail())
                     .roles(new ArrayList<>(user.getRoles()))
                     .build();

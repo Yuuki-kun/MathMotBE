@@ -29,11 +29,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-
+//                .cors(cors -> {
+//                    cors.configurationSource(request -> {
+//                        var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+//                        corsConfiguration.setAllowedOrigins(java.util.List.of("http://localhost:3000"));
+//                        corsConfiguration.setAllowedMethods(java.util.List.of(GET.name(), POST.name(), PUT.name(), DELETE.name(), OPTIONS.name()));
+//                        corsConfiguration.setAllowedHeaders(java.util.List.of("Authorization", "Cache-Control", "Content-Type"));
+//                        return corsConfiguration;
+//                    });
+//                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                                .requestMatchers("/test/**").permitAll()
                                 .requestMatchers("/authentication/**").permitAll()
                                 .requestMatchers("/teacher/**").hasRole(Role.ADMIN.name())
 
