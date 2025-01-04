@@ -2,7 +2,10 @@ package com.mot.mot.controller.notification;
 
 import com.mot.mot.errorHandler.CustomNotFoundException;
 import com.mot.mot.model.dto.NotificationDto;
+import com.mot.mot.model.entity.Enrollment;
 import com.mot.mot.model.entity.Notification;
+import com.mot.mot.model.entity.NotificationType;
+import com.mot.mot.model.enums.EnrollmentStatus;
 import com.mot.mot.model.request.EnrollmentRequest;
 import com.mot.mot.service.IEnrollmentService;
 import com.mot.mot.service.INotificationService;
@@ -34,29 +37,22 @@ public class NotificationController {
         return ResponseEntity.ok(notificationService.getNotifications(userId, pageable));
     }
 
+    @PutMapping("/read/{notificationId}")
+    public ResponseEntity<?> markAsRead(@PathVariable Long notificationId) throws BadRequestException {
+        Notification notification = notificationService.getById(notificationId);
+        notification.setRead(true);
+        if(notification.getNotificationType().equals(NotificationType.INFORMATION)){
+            notification.setProcessed(true);
+        }
+        notificationService.update(notification);
+        return ResponseEntity.ok().build();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     //handle notification
     @PostMapping("/handle/{notificationId}")
-    public ResponseEntity<Long> handleNotification(@PathVariable Long notificationId) throws BadRequestException {
-        var notification = notificationService.getById(notificationId);
-        if(notification==null) throw new CustomNotFoundException("Notification not found");
-
-        notification.setRead(true);
-
-        switch (notification.getNotificationType()){
-            case CONFIRM_JOIN_CLASS:
-                EnrollmentRequest enrollmentRequest = EnrollmentRequest.builder()
-                        .classId(notification.getTargetId())
-                        .studentId(notification.getSenderId())
-                        .enrollmentDate(new Date())
-                        .build();
-                var enrollmentResult = enrollmentService.create(enrollmentRequest);
-                notificationService.update(notification);
-                return ResponseEntity.ok(enrollmentResult.getId());
-            default:
-                throw new BadRequestException("Invalid notification type");
-        }
-
+    public ResponseEntity<Integer> handleNotification(@PathVariable Long notificationId) throws BadRequestException {
+        return ResponseEntity.ok(notificationService.handleNotification(notificationId));
     }
 
 }

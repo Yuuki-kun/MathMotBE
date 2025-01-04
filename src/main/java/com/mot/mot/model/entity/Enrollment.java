@@ -1,5 +1,6 @@
 package com.mot.mot.model.entity;
 
+import com.mot.mot.model.enums.EnrollmentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,4 +29,7 @@ public class Enrollment {
     private Class enrolClass;
 
     private Date enrollmentDate;
+
+    @Enumerated(EnumType.STRING)
+    private EnrollmentStatus status;
 }

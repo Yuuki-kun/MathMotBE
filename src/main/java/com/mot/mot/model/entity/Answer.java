@@ -1,5 +1,7 @@
 package com.mot.mot.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +29,12 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "question_id")
+    @JsonIgnore
+    @JsonBackReference
     private Question question;
+
+    @Override public String toString() { return "Answer{" + "id=" + id + ", correct=" + correct + ", content='" + content + '\'' + ", letter='" + letter + '\'' + '}'; }
+
+
+
 }

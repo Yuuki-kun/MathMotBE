@@ -1,5 +1,6 @@
 package com.mot.mot.model.request;
 
+import com.mot.mot.model.enums.EnrollmentStatus;
 import jakarta.validation.constraints.Min;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class EnrollmentRequest {
     private Long id;
     @Min(value = 0, message = "Student ID khong hop le")
@@ -19,7 +21,7 @@ public class EnrollmentRequest {
 
     private Date enrollmentDate;
 
-    //join class directly or wait for approval
-    private boolean isDirect;
     private Long userId;
+
+    private EnrollmentStatus status;
 }

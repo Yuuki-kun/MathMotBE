@@ -5,10 +5,19 @@ import com.mot.mot.authService.AuthenticationService;
 import com.mot.mot.controller.authController.AuthenticationController;
 import com.mot.mot.helper.DocumentReader;
 import com.mot.mot.model.RegisterRequest;
+import com.mot.mot.model.dto.UploadImageResponse;
+import com.mot.mot.model.entity.EmbedImage;
+import com.mot.mot.repository.EmbedImageRepository;
+import com.mot.mot.service.IImageUpload;
+import com.mot.mot.service.ImageService;
+import com.mot.mot.service.ImgBBService;
+import com.mot.mot.service.LocalStoreImageService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.usermodel.*;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 
@@ -19,21 +28,29 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.w3c.dom.Node;
 
+import javax.imageio.ImageIO;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SpringBootApplication
 @RequiredArgsConstructor
 public class MotApplication {
 
 	private final AuthenticationService authenticationService;
+	private final EmbedImageRepository embedImageRepository;
+	private final ImageService imageService;
 
 	private final DocumentReader documentReader;
 
@@ -41,6 +58,21 @@ public class MotApplication {
 		SpringApplication.run(MotApplication.class, args);
 	}
 
+//	@PostConstruct
+//	public void registerShutdownHook() {
+//		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+//			// Logic xử lý trước khi ứng dụng tắt
+//
+//			List<EmbedImage> embedImages = embedImageRepository.findAll();
+//			for (EmbedImage embedImage : embedImages) {
+//				System.out.println("to delete img = "+ embedImage.toString());
+//
+//				imageService.deleteImage(embedImage.getDeleteHash());
+//
+//			}
+//
+//		}));
+//	}
 	//on application started
 	@EventListener(ApplicationReadyEvent.class)
 	public void onApplicationReadyEvent() throws Exception {
@@ -54,7 +86,48 @@ public class MotApplication {
 						"aZ230902@").build()
 		);
 
-		documentReader.readDocument();
+
+//		try (InputStream is = new FileInputStream("src/main/resources/static/images/word/Equation2.docx")){
+//			XWPFDocument doc = new XWPFDocument(is);
+//			for (XWPFPictureData pictureData : doc.getAllPictures()) {
+//				byte[] bytes = pictureData.getData();
+//				String base64 = java.util.Base64.getEncoder().encodeToString(bytes);
+//				System.out.println("data:image/png;base64," + base64);
+//
+//				try {
+//					byte[] imageBytes = Base64.getDecoder().decode(base64);
+//
+//					// Lưu tệp ảnh
+//					try (FileOutputStream fos = new FileOutputStream("src/main/resources/static/images/word/image_1733112640037.png")) {
+//						fos.write(imageBytes);
+//						System.out.println("Hình ảnh đã được giải mã và lưu thành công!");
+//					}
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					System.out.println("Đã xảy ra lỗi khi giải mã hình ảnh.");
+//				}
+//
+//			}
+//		}
+
+
+
+
+//		documentReader.readDocument();
+
+//		ImageService imageService = new ImageService();
+//
+//		File file = new File("src/main/resources/static/images/image_1733112640037.png");
+//
+//		byte[] fileContent = null;
+//		try {
+//			fileContent = Files.readAllBytes(file.toPath());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		String imageUrl = imageService.upload("test.jog", fileContent );
+//		System.out.println("imageUrl = "+imageUrl);
 
 //		List<String> equations = new ArrayList<>();
 //
@@ -133,60 +206,6 @@ public class MotApplication {
 
 	}
 
-	static File stylesheet = new File("src/main/resources/static/images/word/OMML2MML.xsl");
-	static TransformerFactory tFactory = TransformerFactory.newInstance();
-	static StreamSource stylesource = new StreamSource(stylesheet);
-
-	static String getMathML(CTOMath ctomath) throws Exception {
-		Transformer transformer = tFactory.newTransformer(stylesource);
-
-		Node node = ctomath.getDomNode();
-
-		DOMSource source = new DOMSource(node);
-		StringWriter stringwriter = new StringWriter();
-		StreamResult result = new StreamResult(stringwriter);
-		transformer.setOutputProperty("omit-xml-declaration", "yes");
-		transformer.transform(source, result);
-
-		String mathML = stringwriter.toString();
-		stringwriter.close();
-		mathML = mathML.replaceAll("xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"", "");
-		mathML = mathML.replaceAll("xmlns:mml", "xmlns");
-		mathML = mathML.replaceAll("mml:", "");
-		return mathML;
-	}
-	static String getTextAndFormulas(XWPFParagraph paragraph) throws Exception {
-
-		StringBuffer textWithFormulas = new StringBuffer();
-
-		//using a cursor to go through the paragraph from top to down
-		XmlCursor xmlcursor = paragraph.getCTP().newCursor();
-
-		while (xmlcursor.hasNextToken()) {
-			XmlCursor.TokenType tokentype = xmlcursor.toNextToken();
-			if (tokentype.isStart()) {
-				if (xmlcursor.getName().getPrefix().equalsIgnoreCase("w") && xmlcursor.getName().getLocalPart().equalsIgnoreCase("r")) {
-					//elements w:r are text runs within the paragraph
-					//simply append the text data
-					textWithFormulas.append(xmlcursor.getTextValue());
-				} else if (xmlcursor.getName().getLocalPart().equalsIgnoreCase("oMath")) {
-					//we have oMath
-					//append the oMath as MathML
-					textWithFormulas.append(getMathML((CTOMath)xmlcursor.getObject()));
-				}
-			} else if (tokentype.isEnd()) {
-				//we have to check whether we are at the end of the paragraph
-				xmlcursor.push();
-				xmlcursor.toParent();
-				if (xmlcursor.getName().getLocalPart().equalsIgnoreCase("p")) {
-					break;
-				}
-				xmlcursor.pop();
-			}
-		}
-
-		return textWithFormulas.toString();
-	}
 
 }
 

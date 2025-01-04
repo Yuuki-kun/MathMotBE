@@ -1,7 +1,11 @@
 package com.mot.mot.config;
 
 import com.mot.mot.authService.JwtService;
+import com.mot.mot.errorHandler.CustomJwtTokenExpiredException;
+import com.mot.mot.errorHandler.CustomJwtTokenInvalidException;
 import com.mot.mot.repository.TokenRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -59,18 +63,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .map( t -> !t.isExpired() && !t.isRevoked())
                     .orElse(false);
 
-            if(jwtService.isTokenValid(jwt, userDetails) && isTokenValid){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                //update SecurityContextHolder
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+
+                        if(jwtService.isTokenValid(jwt, userDetails) && isTokenValid){
+                            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                            authToken.setDetails(
+                                    new WebAuthenticationDetailsSource().buildDetails(request)
+                            );
+                            //update SecurityContextHolder
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                        }
+
         }
 
         //move to the next filter

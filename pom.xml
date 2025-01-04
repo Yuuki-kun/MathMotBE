@@ -120,12 +120,39 @@
 			<version>5.1.1</version>
 		</dependency>
 
+		<!--oauth2>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+
 <!--		<dependency>-->
 <!--			<groupId>com.aspose</groupId>-->
 <!--			<artifactId>aspose-words</artifactId>-->
 <!--			<version>23.10</version>-->
 <!--			<classifier>jdk17</classifier>-->
 <!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.5.13</version>  <!-- Chọn phiên bản phù hợp với dự án của bạn -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+		</dependency>
 
 	</dependencies>
 

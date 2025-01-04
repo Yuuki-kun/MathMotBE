@@ -1,11 +1,10 @@
 package com.mot.mot.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mot.mot.model.entity.Teacher;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.mot.mot.model.enums.ClassStatus;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -31,11 +30,13 @@ public class ClassDto {
     private Long classGrade;
 
     @NotNull(message = "Trạng thái lớp không được trống")
-    private Boolean classStatus;
+    //type as string when json
+    private ClassStatus classStatus;
 
     @Size(max = 500, message = "Mô tả lớp không vượt quá 500 ký tự")
     private String classDesc;
 
     @PastOrPresent(message = "Ngày tạo lớp phải ở quá khứ hoặc hiện tại")
     private Date createdAt;
+
 }

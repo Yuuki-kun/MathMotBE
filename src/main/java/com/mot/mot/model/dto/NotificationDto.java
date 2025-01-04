@@ -31,5 +31,5 @@ public class NotificationDto {
 
     private String senderImageUrl;
 
-
+    private Boolean processed;
 }

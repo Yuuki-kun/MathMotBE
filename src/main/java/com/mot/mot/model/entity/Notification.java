@@ -41,4 +41,6 @@ public class Notification {
     private String senderName;
 
     private Long targetId;
+
+    private Boolean processed;
 }

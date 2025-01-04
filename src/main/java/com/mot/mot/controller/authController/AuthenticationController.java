@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("authentication")
@@ -31,11 +34,20 @@ public class AuthenticationController {
         return
                 ResponseEntity.ok(authenticationService.register(registerRequest,response));
     }
+    AtomicInteger total = new AtomicInteger();
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest authenticationRequest,
             HttpServletResponse response
     ){
+        //date time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+        LocalDateTime now = LocalDateTime.now();
+        String strDate = now.format(formatter);
+        total.incrementAndGet();
+        System.out.println("Current time: " + strDate);
+
+        System.out.println("Total request: " + total);
         return
                 ResponseEntity.ok(authenticationService.authenticate(authenticationRequest, response));
     }

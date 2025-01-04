@@ -2,6 +2,8 @@ package com.mot.mot.errorHandler;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(CustomBadRequestException.class)
     public ResponseEntity<ErrorResponse> handleBadRequestException(CustomBadRequestException e){
@@ -96,6 +100,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ErrorResponse> handleExpiredJwtException(ExpiredJwtException e){
+        log.error("Token Expired: {}", e.getMessage());
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .message("Token Expired")
@@ -113,9 +118,36 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("Internal Server Error")
                 .timeStamp(System.currentTimeMillis())
-                .details("Một lỗi đã xảy ra, vui lòng thử lại sau.")
+//                .details("Một lỗi đã xảy ra, vui lòng thử lại sau.")
+                .details(e.getMessage())
                 .build();
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(CustomJwtTokenExpiredException.class)
+    public ResponseEntity<ErrorResponse> handleCustomJwtTokenExpiredException(CustomJwtTokenExpiredException e){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .message("Token Expired")
+                .timeStamp(System.currentTimeMillis())
+                .details(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(CustomJwtTokenInvalidException.class)
+    public ResponseEntity<ErrorResponse> handleCustomJwtTokenInvalidException(CustomJwtTokenInvalidException e){
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .message("Token Invalid")
+                .timeStamp(System.currentTimeMillis())
+                .details(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+
 }

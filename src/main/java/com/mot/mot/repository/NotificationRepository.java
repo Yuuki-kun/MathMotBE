@@ -12,8 +12,8 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
 
     @Query(value = "SELECT n FROM Notification n WHERE n.user.id = ?1 ORDER BY n.createdDate DESC",
-            countQuery = "SELECT COUNT(1) FROM Notification n WHERE n.user.id = ?1",
-            nativeQuery = false)
+            countQuery = "SELECT COUNT(1) FROM Notification n WHERE n.user.id = ?1"
+         )
     Page<Notification> findAllByUserIdOrderByCreatedDateDesc(Long userId, Pageable pageable);
 
 

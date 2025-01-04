@@ -2,6 +2,8 @@ package com.mot.mot.controller.test;
 
 import com.mot.mot.model.entity.Class;
 import com.mot.mot.model.request.EnrollmentRequest;
+import com.mot.mot.repository.ClassRepository;
+import com.mot.mot.repository.ExamRepository;
 import com.mot.mot.repository.NotificationRepository;
 import com.mot.mot.service.ClassService;
 import com.mot.mot.service.EnrollmentService;
@@ -18,7 +20,9 @@ public class TestCCC {
 
     private final ClassService classService;
     private final EnrollmentService enrollmentService;
+    private final ClassRepository c;
     private final NotificationRepository notificationRepository;
+    private final ExamRepository examRepository;
     @GetMapping("/test-api")
     public String testApi(){
         return "Test API";
@@ -43,4 +47,11 @@ public class TestCCC {
     ResponseEntity<?> findByPageNoti(@PathVariable Long userId, Pageable pageable) {
         return ResponseEntity.ok(notificationRepository.findAllByUserIdOrderByCreatedDateDesc(userId,pageable));
     }
+
+    @GetMapping("/test-api-find-classs")
+    ResponseEntity<?> findByPageClass(Pageable pageable) {
+        return ResponseEntity.ok(examRepository.findAllPageableByStudentId(1L, pageable));
+    }
+
+
 }
