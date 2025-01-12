@@ -41,7 +41,7 @@ public class ClassController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Validated
     public ResponseEntity<?> createClass(@RequestPart("createClassRequest") @Valid CreateClassRequest createClassRequest,
-                                         @RequestPart("classAvatarFile") MultipartFile file) throws IOException {
+                                         @RequestPart(value = "classAvatarFile", required = false) MultipartFile file) throws IOException {
 
 
 
