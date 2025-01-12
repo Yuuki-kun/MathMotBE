@@ -64,7 +64,7 @@ public class ClassPostController {
     @PostMapping(consumes = "multipart/form-data")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createClassPost(@RequestPart CreatePostDto createPostDto,
-                                             @RequestPart List<MultipartFile> files) {
+                                             @RequestPart(required = false) List<MultipartFile> files) {
 
         ClassPost classPost = ClassPost.builder()
                 .title(createPostDto.getTitle())
