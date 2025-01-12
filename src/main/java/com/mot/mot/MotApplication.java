@@ -28,20 +28,20 @@ public class MotApplication {
 	}
 
 	//on application started
-	@EventListener(ApplicationReadyEvent.class)
-	public void onApplicationReadyEvent() throws Exception {
-		authenticationService.registerForTest(
-				RegisterRequest.builder().email("teacher@gmail.com").fullName("TEACHER").role("Teacher").password(
-						"aZ230902@").build()
-		);
-
-		authenticationService.registerForTest(
-				RegisterRequest.builder().email("student@gmail.com").fullName("STUDENT").role("Student").password(
-						"aZ230902@").build()
-		);
-
-
-	}
+//	@EventListener(ApplicationReadyEvent.class)
+//	public void onApplicationReadyEvent() throws Exception {
+//		authenticationService.registerForTest(
+//				RegisterRequest.builder().email("teacher@gmail.com").fullName("TEACHER").role("Teacher").password(
+//						"aZ230902@").build()
+//		);
+//
+//		authenticationService.registerForTest(
+//				RegisterRequest.builder().email("student@gmail.com").fullName("STUDENT").role("Student").password(
+//						"aZ230902@").build()
+//		);
+//
+//
+//	}
 
 
 }
