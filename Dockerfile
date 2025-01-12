@@ -10,5 +10,6 @@ FROM openjdk:17-jdk-slim
 
 EXPOSE 8080
 
-COPY --from=target /target/demo-1.jar app.jar
+# Đảm bảo sử dụng đúng alias từ bước build (build)
+COPY --from=build /target/demo-1.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
