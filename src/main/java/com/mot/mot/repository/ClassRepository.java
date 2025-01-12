@@ -16,8 +16,8 @@ public interface ClassRepository extends JpaRepository<Class, Long>{
 
     //find enrolled class by student id
     @Query(
-            value = "SELECT c.* FROM Class c JOIN Enrollment e ON c.id = e.class_id WHERE e.student_id = ?1 AND e.status = 'ENROLLED'",
-            countQuery = "SELECT COUNT(1) FROM Class c JOIN Enrollment e ON c.id = e.class_id WHERE e.student_id = ?1",
+            value = "SELECT c.* FROM class c JOIN enrollment e ON c.id = e.class_id WHERE e.student_id = ?1 AND e.status = 'ENROLLED'",
+            countQuery = "SELECT COUNT(1) FROM class c JOIN enrollment e ON c.id = e.class_id WHERE e.student_id = ?1",
             nativeQuery = true
     )
     Page<Class> findAllByStudentId(Long studentId, Pageable pageable);
