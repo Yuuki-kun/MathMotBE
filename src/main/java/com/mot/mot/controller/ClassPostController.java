@@ -75,7 +75,7 @@ public class ClassPostController {
                 .build();
         ClassPost savedClassPost = classPostService.create(classPost);
 
-        if(!files.isEmpty()){
+        if(files!=null&& !files.isEmpty()){
             files.forEach(
                     file -> {
                         try {

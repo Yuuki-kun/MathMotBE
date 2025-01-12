@@ -42,6 +42,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws")
 //                .setAllowedOrigins("http://localhost:3000")
                 .setAllowedOrigins("https://yuuki-kun.github.io")
+                .setAllowedOrigins("https://math-proj-nine.vercel.app")
                 .withSockJS();
     }
 
