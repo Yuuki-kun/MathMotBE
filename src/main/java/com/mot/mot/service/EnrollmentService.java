@@ -1,7 +1,6 @@
 package com.mot.mot.service;
 
 import com.mot.mot.errorHandler.CustomBadRequestException;
-import com.mot.mot.model.User;
 import com.mot.mot.model.entity.*;
 import com.mot.mot.model.entity.Class;
 import com.mot.mot.model.enums.EnrollmentStatus;
@@ -9,14 +8,12 @@ import com.mot.mot.model.request.EnrollmentRequest;
 import com.mot.mot.repository.ClassRepository;
 import com.mot.mot.repository.EnrollmentRepository;
 import com.mot.mot.repository.StudentRepository;
-import org.springframework.http.ResponseEntity;
+import com.mot.mot.service.abstractInterface.IEnrollmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
 @Service
-public class EnrollmentService extends CrudServiceImpl<Enrollment> implements IEnrollmentService  {
+public class EnrollmentService extends CrudServiceImpl<Enrollment> implements IEnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
     private final StudentRepository studentRepository;
@@ -81,5 +78,10 @@ public class EnrollmentService extends CrudServiceImpl<Enrollment> implements IE
     @Override
     public Enrollment findByStudentIdAndClassId(Long studentId, Long classId) {
         return enrollmentRepository.findByStudentIdAndClassId(studentId, classId).orElseThrow(()-> new CustomBadRequestException("Enrollment not found"));
+    }
+
+    @Override
+    public int countStudentsByEnrolClassId(Long classId) {
+        return enrollmentRepository.countStudentsByEnrolClassId(classId);
     }
 }

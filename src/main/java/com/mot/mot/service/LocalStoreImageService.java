@@ -1,10 +1,8 @@
 package com.mot.mot.service;
 
 import com.mot.mot.model.dto.UploadImageResponse;
-import org.springframework.http.ResponseEntity;
+import com.mot.mot.service.abstractInterface.IImageUpload;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @Service
-public class LocalStoreImageService implements IImageUpload{
+public class LocalStoreImageService implements IImageUpload {
     @Override
     public UploadImageResponse upload(String fileName, byte[] file) {
         //create a new file name

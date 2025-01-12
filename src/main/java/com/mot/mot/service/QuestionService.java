@@ -1,10 +1,10 @@
 package com.mot.mot.service;
 
-import com.mot.mot.model.dto.QuestionDto;
 import com.mot.mot.model.entity.Answer;
 import com.mot.mot.model.entity.Question;
 import com.mot.mot.repository.AnswerRepository;
 import com.mot.mot.repository.QuestionRepository;
+import com.mot.mot.service.abstractInterface.IQuestionService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,7 @@
 package com.mot.mot.service;
 
 import com.mot.mot.errorHandler.CustomBadRequestException;
+import com.mot.mot.service.abstractInterface.ICrudService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,5 +47,5 @@ public abstract class CrudServiceImpl<T> implements ICrudService<T> {
     }
 
 
-//    public abstract T create(T object);
+//    public abstractInterface T create(T object);
 }

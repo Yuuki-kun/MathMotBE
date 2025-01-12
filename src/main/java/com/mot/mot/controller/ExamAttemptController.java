@@ -10,7 +10,7 @@ import com.mot.mot.repository.AnswerAttemptRepository;
 import com.mot.mot.repository.ExamAttemptRepository;
 import com.mot.mot.repository.ExamRepository;
 import com.mot.mot.repository.QuestionRepository;
-import com.mot.mot.service.IExamAttemptService;
+import com.mot.mot.service.abstractInterface.IExamAttemptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 

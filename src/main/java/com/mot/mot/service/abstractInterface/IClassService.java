@@ -1,4 +1,4 @@
-package com.mot.mot.service;
+package com.mot.mot.service.abstractInterface;
 
 import com.mot.mot.model.dto.ClassDto;
 import com.mot.mot.model.dto.ClassSearchDto;

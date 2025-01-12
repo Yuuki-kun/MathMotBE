@@ -1,5 +1,6 @@
 package com.mot.mot.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mot.mot.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,10 +29,14 @@ public class ClassPost {
 
     @ManyToOne
     @JoinColumn(name = "author_user_id")
+    @JsonIgnore
     private User user;
+
+    private int likeCount;
 
     @ManyToOne
     @JoinColumn(name = "parent_class_id")
+    @JsonIgnore
     private Class parentClass;
 
 }

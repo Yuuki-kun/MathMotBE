@@ -3,13 +3,12 @@ package com.mot.mot.controller;
 import com.mot.mot.errorHandler.CustomBadRequestException;
 import com.mot.mot.model.User;
 import com.mot.mot.model.entity.*;
-import com.mot.mot.model.entity.Class;
 import com.mot.mot.model.enums.EnrollmentStatus;
 import com.mot.mot.model.request.EnrollmentRequest;
 import com.mot.mot.repository.StudentRepository;
-import com.mot.mot.service.IClassService;
-import com.mot.mot.service.IEnrollmentService;
-import com.mot.mot.service.INotificationService;
+import com.mot.mot.service.abstractInterface.IClassService;
+import com.mot.mot.service.abstractInterface.IEnrollmentService;
+import com.mot.mot.service.abstractInterface.INotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +31,11 @@ public class EnrollmentController {
     @GetMapping("/classes/{studentId}")
     ResponseEntity<?> findByPageEnr(@PathVariable Long studentId, Pageable pageable) {
         return ResponseEntity.ok(classService.findAllByStudentId(studentId,pageable));
+    }
+
+    @GetMapping("count-student/{classId}")
+    ResponseEntity<?> countStudentsByEnrolClassId(@PathVariable Long classId) {
+        return ResponseEntity.ok(enrollmentService.countStudentsByEnrolClassId(classId));
     }
 
     @PostMapping("/enroll")

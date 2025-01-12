@@ -1,4 +1,4 @@
-package com.mot.mot.service;
+package com.mot.mot.service.abstractInterface;
 
 
 import org.apache.coyote.BadRequestException;

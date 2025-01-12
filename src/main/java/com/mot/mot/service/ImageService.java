@@ -1,13 +1,13 @@
 package com.mot.mot.service;
 
 import com.mot.mot.model.dto.UploadImageResponse;
+import com.mot.mot.service.abstractInterface.IImageUpload;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.ContentBody;

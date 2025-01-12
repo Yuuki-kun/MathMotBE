@@ -7,6 +7,7 @@ import com.mot.mot.model.entity.Class;
 import com.mot.mot.model.entity.Teacher;
 import com.mot.mot.model.request.CreateClassRequest;
 import com.mot.mot.repository.ClassRepository;
+import com.mot.mot.service.abstractInterface.IClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,18 +29,9 @@ public class ClassService extends CrudServiceImpl<Class> implements IClassServic
 
     @Override
     public ClassDto findClassDtoById(Long classId) {
-        Class classEntity = super.getById(classId);
-        if (classEntity != null) {
-            return ClassDto.builder()
-                    .id(classEntity.getId())
-                    .className(classEntity.getClassName())
-                    .classDesc(classEntity.getClassDesc())
-                    .classGrade(classEntity.getClassGrade())
-                    .classStatus(classEntity.getClassStatus())
-                    .createdAt(classEntity.getCreatedAt())
-                    .build();
-        }
-        return ClassDto.builder().id(-1L).build();
+        ClassDto classEntity = classRepository.findClassById(classId);
+
+        return classEntity;
 
     }
 
@@ -63,7 +55,12 @@ public class ClassService extends CrudServiceImpl<Class> implements IClassServic
 
     @Override
     public Page<Class> findAllByStudentId(Long studentId, Pageable pageable) {
-        return classRepository.findAllByStudentId(studentId, pageable);
+
+        Page<Class> findClasses =  classRepository.findAllByStudentId(studentId, pageable);
+
+
+
+        return  findClasses;
     }
 
     @Override

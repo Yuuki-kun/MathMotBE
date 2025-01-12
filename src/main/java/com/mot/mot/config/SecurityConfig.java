@@ -36,40 +36,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-
-//                .cors(cors -> {
-//                    cors.configurationSource(request -> {
-//                        var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-//                        corsConfiguration.setAllowedOrigins(java.util.List.of("http://localhost:3000"));
-//                        corsConfiguration.setAllowedMethods(java.util.List.of(GET.name(), POST.name(), PUT.name(), DELETE.name(), OPTIONS.name()));
-//                        corsConfiguration.setAllowedHeaders(java.util.List.of("Authorization", "Cache-Control", "Content-Type"));
-//                        return corsConfiguration;
-//                    });
-//                })
-
                 .csrf(AbstractHttpConfigurer::disable)
-//                .exceptionHandling(
-//                        exceptionHandlingConfigurer -> exceptionHandlingConfigurer
-//                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                                .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                                    response.setContentType("application/json");
-//                                    response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-//                                    response.sendError(403, "Access Denied");
-//
-//                                })
-//
-//                )
+
                 .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // Set 401 status code
                             response.getWriter().write("Unauthorized: " + authException.getMessage());  // Optional message
-//                            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
                             response.setHeader("Access-Control-Allow-Credentials", "true");
                         })
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);  // Set 403 status code
                             response.getWriter().write("Forbidden: " + accessDeniedException.getMessage());  // Optional message
-//                            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
                             response.setHeader("Access-Control-Allow-Credentials", "true");
                         })
                 )                .authorizeHttpRequests(
@@ -88,14 +65,6 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
 
-//                .oauth2Login(oauth2Login -> oauth2Login
-//                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-//                                .userService(new CustomOAuth2UserService(userRepository))
-//                        )
-//                        .successHandler((request, response, authentication) -> {
-//                            response.sendRedirect("http://localhost:3000");
-//                        })
-//                )
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

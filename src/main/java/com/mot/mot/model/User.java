@@ -1,5 +1,7 @@
 package com.mot.mot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mot.mot.model.entity.EmbedImage;
 import com.mot.mot.model.entity.Student;
 import com.mot.mot.model.entity.Teacher;
 import jakarta.persistence.*;
@@ -42,6 +44,11 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id", referencedColumnName = "studentId", nullable = true)
     private Student student;
+
+    @OneToOne
+    @JoinColumn(name = "profile_image_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
+    private EmbedImage profileImage;
 
     public void setStudent(Student student) {
         this.student = student;

@@ -40,7 +40,9 @@ public class EmbedImage {
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
-    private Long entityId;
+    private Long relatedId;
+
+    private String relatedTable;
 
     private boolean uploaded;
 

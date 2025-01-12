@@ -134,13 +134,18 @@ public class AuthenticationService {
 
         Cookie refresh_token_cookies = new Cookie("refresh_token", refreshToken);
         refresh_token_cookies.setHttpOnly(true);
-        refresh_token_cookies.setSecure(false); //Để 'true' nếu dùng HTTPS
+        refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
         refresh_token_cookies.setPath("/");
-        refresh_token_cookies.setDomain("localhost");
+//        refresh_token_cookies.setDomain("localhost");
+        refresh_token_cookies.setDomain("*");
         refresh_token_cookies.setMaxAge(24*60*60);
         response.addCookie(refresh_token_cookies);
 
-        return AuthenticationResponse.builder().accessToken(jwtToken).build();
+        return AuthenticationResponse.builder().accessToken(jwtToken).accessToken(jwtToken)
+                .userId(user.getId())
+                .memberId(user.getStudent() != null ? user.getStudent().getStudentId() : user.getTeacher().getTeacherId())
+                .email(user.getEmail())
+                .roles(new ArrayList<>(user.getRoles())).build();
     }
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest,
                                                HttpServletResponse response) {
@@ -173,9 +178,10 @@ public class AuthenticationService {
 
         Cookie refresh_token_cookies = new Cookie("refresh_token", refreshToken);
         refresh_token_cookies.setHttpOnly(true);
-        refresh_token_cookies.setSecure(false); //Để 'true' nếu dùng HTTPS
+        refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
         refresh_token_cookies.setPath("/");
-        refresh_token_cookies.setDomain("localhost");
+//        refresh_token_cookies.setDomain("localhost");
+        refresh_token_cookies.setDomain("*");
         refresh_token_cookies.setMaxAge(24*60*60);
 
             response.addCookie(refresh_token_cookies);

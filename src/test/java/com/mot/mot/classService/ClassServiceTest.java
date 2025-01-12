@@ -6,7 +6,6 @@ import com.mot.mot.model.entity.Teacher;
 import com.mot.mot.model.request.CreateClassRequest;
 import com.mot.mot.repository.ClassRepository;
 import com.mot.mot.service.ClassService;
-import com.mot.mot.service.IClassService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

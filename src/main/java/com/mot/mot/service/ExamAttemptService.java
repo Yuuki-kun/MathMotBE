@@ -2,10 +2,11 @@ package com.mot.mot.service;
 
 import com.mot.mot.model.entity.ExamAttempt;
 import com.mot.mot.repository.ExamAttemptRepository;
+import com.mot.mot.service.abstractInterface.IExamAttemptService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExamAttemptService extends CrudServiceImpl<ExamAttempt> implements IExamAttemptService{
+public class ExamAttemptService extends CrudServiceImpl<ExamAttempt> implements IExamAttemptService {
 
     private final ExamAttemptRepository examAttemptRepository;
     public ExamAttemptService(ExamAttemptRepository examAttemptRepository) {

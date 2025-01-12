@@ -1,9 +1,8 @@
-package com.mot.mot.service;
+package com.mot.mot.service.abstractInterface;
 
 import com.mot.mot.model.dto.NotificationDto;
 import com.mot.mot.model.entity.Notification;
 import org.apache.coyote.BadRequestException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

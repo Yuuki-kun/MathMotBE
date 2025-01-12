@@ -1,4 +1,5 @@
 package com.mot.mot.service;
+import com.mot.mot.service.abstractInterface.IImageUpload;
 import org.springframework.http.*;
 
 import com.mot.mot.model.dto.UploadImageResponse;
@@ -11,7 +12,7 @@ import java.util.Base64;
 import java.util.Map;
 
 @Service
-public class ImgBBService implements IImageUpload{
+public class ImgBBService implements IImageUpload {
     private static final String API_URL = "https://api.imgbb.com/1/upload";
     private final String API_KEY = "6198f12d5918fb7d737c43278805be8f";
     @Override

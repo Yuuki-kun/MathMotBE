@@ -39,4 +39,27 @@ public class ClassDto {
     @PastOrPresent(message = "Ngày tạo lớp phải ở quá khứ hoặc hiện tại")
     private Date createdAt;
 
+    private String imageUrl;
+
+    private String teacherName;
+
+    public ClassDto(Long id, String className, Long classGrade, ClassStatus classStatus, String classDesc, Date createdAt) {
+        this.id = id;
+        this.className = className;
+        this.classGrade = classGrade;
+        this.classStatus = classStatus;
+        this.classDesc = classDesc;
+        this.createdAt = createdAt;
+    }
+
+    public ClassDto(Long id, String className, Long classGrade, ClassStatus classStatus, String classDesc, Date createdAt, String imageUrl) {
+        this.id = id;
+        this.className = className;
+        this.classGrade = classGrade;
+        this.classStatus = classStatus;
+        this.classDesc = classDesc;
+        this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
+    }
+
 }

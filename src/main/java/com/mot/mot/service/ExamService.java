@@ -11,6 +11,7 @@ import com.mot.mot.model.entity.Answer;
 import com.mot.mot.model.entity.Exam;
 import com.mot.mot.repository.ClassRepository;
 import com.mot.mot.repository.ExamRepository;
+import com.mot.mot.service.abstractInterface.IExamService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class ExamService extends CrudServiceImpl<Exam> implements IExamService{
+public class ExamService extends CrudServiceImpl<Exam> implements IExamService {
     private final DocumentReader documentReader;
     private final ExamRepository examRepository;
     private final ClassRepository classRepository;

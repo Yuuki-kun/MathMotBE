@@ -4,13 +4,11 @@ import com.mot.mot.model.dto.QuestionDto;
 import com.mot.mot.model.entity.Answer;
 import com.mot.mot.model.entity.Question;
 import com.mot.mot.repository.AnswerRepository;
-import com.mot.mot.service.IQuestionService;
-import com.mot.mot.service.QuestionService;
+import com.mot.mot.service.abstractInterface.IQuestionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

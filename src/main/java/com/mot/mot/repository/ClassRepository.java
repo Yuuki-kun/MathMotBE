@@ -20,24 +20,9 @@ public interface ClassRepository extends JpaRepository<Class, Long>{
             countQuery = "SELECT COUNT(1) FROM Class c JOIN Enrollment e ON c.id = e.class_id WHERE e.student_id = ?1",
             nativeQuery = true
     )
-//    @Query với nativeQuery = true:
-//    Đây là một Native SQL Query, nghĩa là đang viết trực tiếp câu lệnh SQL dựa trên cấu trúc cơ sở dữ liệu.
-//    Phù hợp khi cấu trúc bảng và cột trong cơ sở dữ liệu không khớp 1:1 với cấu trúc entity trong JPA.
-//    countQuery:
-//    Bắt buộc khi sử dụng phân trang (Pageable), để JPA biết cách tính tổng số bản ghi (cho việc chia trang).
-//    Page<Class>:
-//    JPA sẽ tự động áp dụng LIMIT và OFFSET dựa trên đối tượng Pageable được truyền vào.
     Page<Class> findAllByStudentId(Long studentId, Pageable pageable);
 
-//    @Query(
-//            value = "SELECT c FROM Class c WHERE c.className LIKE %?1%"
-//    )
-//    @Query(
-//            "SELECT new com.mot.mot.model.dto.ClassSearchDto(c.id, c.className, u.fullName, c.classStatus) " +
-//                    "FROM Class c JOIN User u ON c.teacher.teacherId = u.teacher.teacherId " +
-//                    "WHERE c.className LIKE %?1%"
-//    )
-    //=> k the join truc tiep 2 table ko duoc dinh nghia quan he, co the dung cau lenh tren bang nativeQuery
+
     @Query(
             "SELECT new com.mot.mot.model.dto.ClassSearchDto(c.id, c.className, u.fullName, c.classStatus, e.status) " +
                     "FROM Class c JOIN c.teacher t JOIN t.user u LEFT JOIN Enrollment e ON e.enrolClass = c " +
@@ -47,12 +32,22 @@ public interface ClassRepository extends JpaRepository<Class, Long>{
     List<ClassSearchDto> findAllByClassName(String className, Long studentId);
 
     @Query(
-            "SELECT new com.mot.mot.model.dto.ClassDto(c.id, c.className, c.classGrade, c.classStatus, c.classDesc, c.createdAt) " +
+            "SELECT new com.mot.mot.model.dto.ClassDto(c.id, c.className, c.classGrade, c.classStatus, c.classDesc, " +
+                    "c.createdAt, eimg.url) " +
                     "FROM Class c JOIN c.teacher t " +
+                    "LEFT JOIN EmbedImage eimg on eimg.relatedId = c.id AND eimg.relatedTable = 'class' "+
                     "WHERE t.teacherId = ?1"
     )
     Page<ClassDto> findAllByTeacherId(Long teacherId, Pageable pageable);
 
+    @Query(
 
+                "SELECT new com.mot.mot.model.dto.ClassDto(c.id, c.className, c.classGrade, c.classStatus, c.classDesc, " +
+                        "c.createdAt, eimg.url, u.fullName) " +
+                        "FROM Class c JOIN c.teacher t LEFT JOIN User u on t.user.id = u.id " +
+                        "LEFT JOIN EmbedImage eimg on eimg.relatedId = c.id AND eimg.relatedTable = 'class' "+
+                        "WHERE c.id = ?1"
+    )
+    ClassDto findClassById(Long classId);
 
 }

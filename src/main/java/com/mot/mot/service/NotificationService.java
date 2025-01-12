@@ -1,6 +1,5 @@
 package com.mot.mot.service;
 
-import com.mot.mot.controller.notification.NotificationController;
 import com.mot.mot.errorHandler.CustomBadRequestException;
 import com.mot.mot.errorHandler.CustomNotFoundException;
 import com.mot.mot.model.dto.NotificationDto;
@@ -9,13 +8,10 @@ import com.mot.mot.model.entity.Notification;
 import com.mot.mot.model.enums.EnrollmentStatus;
 import com.mot.mot.repository.EnrollmentRepository;
 import com.mot.mot.repository.NotificationRepository;
-import lombok.RequiredArgsConstructor;
+import com.mot.mot.service.abstractInterface.INotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
