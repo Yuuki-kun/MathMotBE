@@ -46,6 +46,7 @@ public class CorsConfig {
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("https://yuuki-kun.github.io");
         config.addAllowedOrigin("https://yuuki-kun.github.io/math-proj/");
+        config.addAllowedOrigin("https://math-proj-nine.vercel.app");
 
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
