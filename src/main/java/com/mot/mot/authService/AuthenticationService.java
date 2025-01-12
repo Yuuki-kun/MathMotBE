@@ -137,7 +137,7 @@ public class AuthenticationService {
         refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
         refresh_token_cookies.setPath("/");
 //        refresh_token_cookies.setDomain("localhost");
-        refresh_token_cookies.setDomain("*");
+        refresh_token_cookies.setDomain("https://mathmotbe.onrender.com");
         refresh_token_cookies.setMaxAge(24*60*60);
         response.addCookie(refresh_token_cookies);
 
@@ -181,7 +181,7 @@ public class AuthenticationService {
         refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
         refresh_token_cookies.setPath("/");
 //        refresh_token_cookies.setDomain("localhost");
-        refresh_token_cookies.setDomain("*");
+        refresh_token_cookies.setDomain("https://mathmotbe.onrender.com");
         refresh_token_cookies.setMaxAge(24*60*60);
 
             response.addCookie(refresh_token_cookies);
