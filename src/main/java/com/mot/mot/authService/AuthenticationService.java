@@ -134,10 +134,12 @@ public class AuthenticationService {
 
         Cookie refresh_token_cookies = new Cookie("refresh_token", refreshToken);
         refresh_token_cookies.setHttpOnly(true);
-        refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
+//        refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
+        refresh_token_cookies.setSecure(false); //Để 'true' nếu dùng HTTPS
+
         refresh_token_cookies.setPath("/");
-//        refresh_token_cookies.setDomain("localhost");
-        refresh_token_cookies.setDomain("mathmotbe.onrender.com");
+        refresh_token_cookies.setDomain("localhost");
+//        refresh_token_cookies.setDomain("mathmotbe.onrender.com");
         refresh_token_cookies.setMaxAge(24*60*60);
         response.addCookie(refresh_token_cookies);
 
@@ -178,10 +180,12 @@ public class AuthenticationService {
 
         Cookie refresh_token_cookies = new Cookie("refresh_token", refreshToken);
         refresh_token_cookies.setHttpOnly(true);
-        refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
+//        refresh_token_cookies.setSecure(true); //Để 'true' nếu dùng HTTPS
+        refresh_token_cookies.setSecure(false);
+
         refresh_token_cookies.setPath("/");
-//        refresh_token_cookies.setDomain("localhost");
-        refresh_token_cookies.setDomain("mathmotbe.onrender.com");
+        refresh_token_cookies.setDomain("localhost");
+//        refresh_token_cookies.setDomain("mathmotbe.onrender.com");
         refresh_token_cookies.setMaxAge(24*60*60);
 
             response.addCookie(refresh_token_cookies);
